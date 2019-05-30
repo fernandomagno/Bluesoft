@@ -1,0 +1,41 @@
+package bluesoft;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import br.com.assai.horus.core.WDS;
+
+
+public class CenariosBlueSoft {
+
+	@Test
+	public void Test_Submarino_Americanas() throws InterruptedException {
+		WDS.get().navigate().to("https://www.submarino.com.br/");
+		bluesoftPageObject.deve().clicarLivros();
+		String isbnItem = bluesoftPageObject.deve().pegarValorIsbn();
+		String autorItem = bluesoftPageObject.deve().pegarValorAutor();
+		WDS.get().navigate().to("https://www.americanas.com.br/");
+		bluesoftPageObject.deve().informarIsbnAmericanas(isbnItem);
+		bluesoftPageObject.deve().enterCodigoAmericanas();
+		bluesoftPageObject.deve().clickLivrosAmericanas();
+		bluesoftPageObject.deve().clickAutorAmericanas();
+		assertEquals(autorItem, bluesoftPageObject.deve().pegarAutorAmericanas());
+		//assertEquals("Jenny Han", bluesoftPageObject.deve().pegarAutor());
+	}
+	
+	@Test
+	public void Test_Submarino_Amazon() throws InterruptedException {
+		WDS.get().navigate().to("https://www.submarino.com.br/");
+		bluesoftPageObject.deve().clicarLivros();
+		String isbnItem = bluesoftPageObject.deve().pegarValorIsbn();
+		String autorItem = bluesoftPageObject.deve().pegarValorAutor();
+		WDS.get().navigate().to("https://www.amazon.com.br/");
+		bluesoftPageObject.deve().informarIsbnBuscadoAmazon(isbnItem);
+		bluesoftPageObject.deve().enterCodigoAmazon();
+		bluesoftPageObject.deve().clickLivrosAmazon();
+		//bluesoftPageObject.deve().clickAutorAmazon();
+		assertEquals(autorItem, bluesoftPageObject.deve().pegarAutorAmazon());
+	}
+
+}
