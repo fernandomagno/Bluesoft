@@ -1,0 +1,50 @@
+package bluesoft;
+
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import br.com.assai.horus.core.WDS;
+
+
+public class AmericanasPageObject {
+	
+	@FindBy(id="h_search-input")
+	private WebElement searchAmericanas;
+	
+	@FindBy(xpath="//*[@id='content-middle']/div[5]/div/div/div/div[1]/div/div/div[2]/a/section/div[2]")
+	private WebElement livroBuscadoAmericanas;
+	
+	@FindBy(xpath="//*[@id='info-section']/div[2]/section/div/div[3]/table/tbody/tr[13]/td[2]/span")
+	private WebElement autorAmericanas;
+	
+	public static AmericanasPageObject deve(){
+		return PageFactory.initElements(WDS.get(), AmericanasPageObject.class);
+	}
+	
+	public void informarIsbnAmericanas (String codigo) throws InterruptedException{
+		Thread.sleep(1000);
+		searchAmericanas.sendKeys(codigo);
+	}
+	
+	public void enterCodigoAmericanas () throws InterruptedException{
+		Thread.sleep(1000);
+		searchAmericanas.sendKeys(Keys.RETURN);
+	}
+	
+	public void clickLivrosAmericanas() throws InterruptedException{
+		Thread.sleep(1000);
+		livroBuscadoAmericanas.click();
+	}
+	
+	public void clickAutorAmericanas()throws InterruptedException{
+		Thread.sleep(1000);
+		autorAmericanas.click();
+	}
+	
+	public String pegarAutorAmericanas(){
+		return autorAmericanas.getText();
+	}
+	
+
+}
