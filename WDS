@@ -1,0 +1,88 @@
+package bluesoft;
+
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import br.com.assai.horus.enviroment.Driver;
+
+public class WDS {
+
+	private static WebDriver driver = null;
+
+	private static WebDriverWait wait = null;
+	
+	private static WebDriverWait waitRelatorio = null;
+
+	public static WebDriver get() {
+		if (driver == null) {
+			if (!Driver.getPhantomjsDriverPath().isEmpty())
+				driver = loadPhantomjsDriver();
+			else
+				driver = loadChromeDriver();
+		}
+		return driver;
+	}
+
+	protected static WebDriver loadPhantomjsDriver() {
+        DesiredCapabilities dc = new DesiredCapabilities();
+        dc.setCapability(
+                PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+                Driver.getPhantomjsDriverPath());
+        dc.setCapability("takesScreenshot", true);
+        dc.setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_CUSTOMHEADERS_PREFIX + "Accept-Language", "pt-BR");
+
+        WebDriver driver =  new PhantomJSDriver(dc);
+               driver.manage().window().setSize(new Dimension(1920, 1080));
+               return driver;
+	}
+	
+
+	protected static WebDriver loadChromeDriver() {
+		// USAR O CHROME PARA VISUALIZAR ALGO
+		// Informando que a capacidade sera para o Chrome
+		DesiredCapabilities capacidade = DesiredCapabilities.chrome();
+		// Habilitando JavaScript no browser
+		capacidade.setJavascriptEnabled(true);
+		// Informando o local do executavel do Chrome
+		capacidade.setCapability("chrome.binary", Driver.getChromeBinaryPath());
+		// Informando o local do interpretador (server) do Chrome
+		System.setProperty("webdriver.chrome.driver",
+				Driver.getChromeDriverPath());
+
+		// Instanciando o Chrome com a capacidade criada
+		return new ChromeDriver(capacidade);
+	}
+
+	public static WebDriverWait getWait() {
+		if (wait == null) {
+			wait = new WebDriverWait(get(),10);
+		}
+		return wait;
+	}
+	
+	public static WebDriverWait getWaitAngular() {
+		if (wait == null) {
+			wait = new WebDriverWait(get(),240);
+		}
+		return wait;
+	}
+	
+	public static WebDriverWait getWaitRelatorio() {
+		if (waitRelatorio == null) {
+			waitRelatorio = new WebDriverWait(get(),120);
+		}
+		return waitRelatorio;
+	}
+
+	public static void quit() {
+		driver.quit();
+		driver = null;
+		wait = null;
+		waitRelatorio = null;
+	}
+}
