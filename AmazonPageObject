@@ -1,0 +1,50 @@
+package BlueSoft;
+
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import BlueSoft.WDS;
+
+public class AmazonPageObject {
+	
+	@FindBy(id="twotabsearchtextbox")
+	private WebElement searchAmazon;
+	
+	@FindBy(xpath="//div[1]/div/div/div/div[2]/div[2]/div/div[1]/div/div/div[1]/h2/a")
+	private WebElement livroBuscadoamazon;
+	
+	@FindBy(xpath="//span[@class='author notFaded'][1]/a[@class='a-link-normal']")
+	private WebElement autorAmazon;
+	
+	public static AmazonPageObject deve(){
+		return PageFactory.initElements(WDS.get(), AmazonPageObject.class);
+	}
+	
+	public void informarIsbnBuscadoAmazon (String codigo)throws InterruptedException{
+		Thread.sleep(1000);
+		searchAmazon.sendKeys(codigo);
+	}
+	
+	public void enterCodigoAmazon ()throws InterruptedException{
+		Thread.sleep(1000);
+		searchAmazon.sendKeys(Keys.RETURN);
+	}
+	
+	public void clickLivrosAmazon() throws InterruptedException{
+		Thread.sleep(1000);
+		livroBuscadoamazon.click();
+	}
+	
+	public void clickAutorAmazon()throws InterruptedException{
+		Thread.sleep(1000);
+		autorAmazon.click();
+	}
+	
+	public String pegarAutorAmazon(){
+		return autorAmazon.getText();
+	}
+	
+
+}
